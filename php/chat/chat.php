@@ -55,6 +55,6 @@ if (!isset($_SESSION['username'])) {
             input.value = "";
         }
     </script>
-<p>TEST git <p>
+
 </body>
 </html>
