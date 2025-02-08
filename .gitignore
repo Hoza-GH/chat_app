@@ -1,0 +1,21 @@
+# Fichiers de logs et temporaires
+/logs/
+/tmp/
+/cache/
+*.log
+
+# Config WAMP et environnement
+/wampserver.conf
+/vendor/
+/node_modules/
+.env
+.DS_Store
+
+# Dépendances (si tu utilises Composer)
+/vendor/
+composer.lock
+
+# Dépendances (si tu utilises NPM/Yarn)
+/node_modules/
+package-lock.json
+yarn.lock
