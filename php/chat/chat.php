@@ -51,10 +51,10 @@ if (!isset($_SESSION['username'])) {
             chatBox.appendChild(message);
             chatBox.scrollTop = chatBox.scrollHeight;
 
-            // Vider l'input
+            // Vider l'input  
             input.value = "";
         }
     </script>
-
+<p>TEST git <p>
 </body>
 </html>
