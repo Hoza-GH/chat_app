@@ -1,5 +1,7 @@
 <?php
+
 session_start();
+include_once '../session/userpicture.php';
 if (!isset($_SESSION['username'])) {
     header("Location: ../../index.php");
     exit;
@@ -17,7 +19,8 @@ if (!isset($_SESSION['username'])) {
 <body>
 
     <div class="sidebar">
-        <h2><strong><?php echo ucfirst($_SESSION['username']); ?></strong></h2>
+        <h2><img src=<?php echo htmlspecialchars($profileImage); ?> alt="Photo de profil" width="50" height="50"><strong class="name-profile"><?php echo ucfirst($_SESSION['username']); ?></strong></h2>
+        
         <div class="channel">Général</div>
         <div class="channel">Gaming</div>
         <div class="channel">Programmation</div>
