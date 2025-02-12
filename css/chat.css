@@ -8,6 +8,7 @@ body {
 }
 
 .sidebar {
+    height: 100vh;
     width: 250px;
     background: rgba(34, 34, 34, 0.8);
     padding: 20px;
@@ -16,8 +17,8 @@ body {
     flex-direction: column;
     gap: 15px;
     border-right: 1px solid rgba(255, 255, 255, 0.2);
+    box-sizing: border-box;
 }
-
 .sidebar h2 {
     font-size: 1.5em;
     text-align: center;
@@ -104,4 +105,28 @@ body {
     position: relative;
     top: -15px;
     margin-left: 15px;
+}
+
+.content {
+    flex-grow: 1; /* Prend tout l'espace disponible */
+}
+
+.btn-logout {
+    background-color: #ff4d4d; /* Couleur de fond rouge */
+    color: white; /* Couleur du texte */
+    border: none; /* Pas de bordure */
+    border-radius: 5px; /* Coins arrondis */
+    padding: 10px 15px; /* Espacement interne */
+    font-size: 16px; /* Taille de la police */
+    cursor: pointer; /* Curseur en forme de main */
+    transition: background-color 0.3s; /* Transition pour l'effet de survol */
+    width: 100%; /* Prend toute la largeur du conteneur */
+    margin-top: auto; /* Pousse le bouton vers le bas */
+}
+
+.btn:hover {
+    background-color: #ff1a1a; /* Couleur de fond au survol */
+}
+ul{
+    list-style-type: none ;
 }

@@ -29,6 +29,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['connexion'])) {
             // Connexion réussie
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['username'] = $user['username'];
+
+        // Mise à jour de la date de dernière connexion
+        $updateLastLogin = $conn->prepare("UPDATE users SET last_login = NOW() WHERE id = ?");
+        $updateLastLogin->execute(array($user['id']));
             
 
             header('Location: php/chat/chat.php'); // Redirige vers une page protégée
