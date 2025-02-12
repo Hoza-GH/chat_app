@@ -26,11 +26,12 @@ if (!isset($_SESSION['username'])) {
         </h2>
 
         <div class="content">
-            <h4>
+            <h4 class = "userListHeader">
                 Utilisateurs connectés
-                <hr />
             </h4>
-            <ul>
+            <hr /> 
+            <div class="user-container">
+                <ul>
                 <!--Afficher tous les utilisateurs ayant un compte-->
                 <?php
                     foreach($afficher_profil as $ap) {
@@ -38,7 +39,9 @@ if (!isset($_SESSION['username'])) {
                     }
                 ?>
 
-            </ul>
+                </ul>
+            </div>   
+            
 
             
             
