@@ -93,8 +93,7 @@ $isAdmin = $username === "admin"
 
         // Ajouter le message à la boîte de chat
         chatBox.appendChild(message);
-        // Faire défiler la boîte de chat vers le bas pour afficher le dernier message
-        chatBox.scrollTop = chatBox.scrollHeight;
+        ;
 
         // Envoi du message à la base de données via une requête fetch
         fetch('send_message.php', {
@@ -108,46 +107,56 @@ $isAdmin = $username === "admin"
                 sender_id: <?php echo $_SESSION['user_id']; ?>,
             })
         })
-        .then(() => {
-            // Charger les messages après l'envoi
-            loadMessage();
-        });
-
+        
         // Vider l'input après l'envoi du message
         input.value = "";
     }
 
     // Fonction pour charger les messages depuis la base de données
     function loadMessage() {
-        fetch('load_messages.php') // Faire une requête pour récupérer les messages
-            .then(response => {
-                // Vérifier si la réponse est correcte
-                if (!response.ok) {
-                    throw new Error('Network response was not ok: ' + response.statusText);
-                }
-                return response.json(); // Convertir la réponse en JSON
-            })
-            .then(messages => {
-                const chatBox = document.getElementById('chat-box');
-                chatBox.innerHTML = ''; // Vider la boîte de chat avant d'ajouter les nouveaux messages
-                messages.forEach(msg => {
-                    const message = document.createElement('div'); // Créer un nouvel élément pour chaque message
-                    message.classList.add('message', 'me'); // Ajouter une classe pour le style
-                    // Définir le contenu HTML du message avec le nom d'utilisateur et le texte du message
-                    message.innerHTML = `<strong>${capitalizeFirstLetter(msg.username)} :</strong> ${msg.content}`;
-                    chatBox.appendChild(message); // Ajouter le message à la boîte de chat
-                });
-            })
-            .catch(error => {
-                // Gérer les erreurs de la requête fetch
-                console.error('There was a problem with the fetch operation:', error);
+    fetch('load_messages.php')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok: ' + response.statusText);
+            }
+            return response.json();
+        })
+        .then(messages => {
+            const chatBox = document.getElementById('chat-box');
+            chatBox.innerHTML = '';
+            messages.forEach(msg => {
+                const message = document.createElement('div');
+                const userColor = getColorForUser(msg.username); // Obtenir la couleur pour l'utilisateur
+                message.classList.add('message');
+                message.style.backgroundColor = userColor; // Appliquer la couleur
+                message.innerHTML = `<strong>${capitalizeFirstLetter(msg.username)} :</strong> ${msg.content}`;
+                chatBox.appendChild(message);
+                // Faire défiler la boîte de chat vers le bas pour afficher le dernier message
+                chatBox.scrollTop = chatBox.scrollHeight
             });
+        })
+        .catch(error => {
+            console.error('There was a problem with the fetch operation:', error);
+        });
+}
+
+    function getColorForUser(username) {
+    // Utiliser un hash simple pour générer une couleur à partir du nom d'utilisateur
+    let hash = 0;
+    for (let i = 0; i < username.length; i++) {
+        hash = username.charCodeAt(i) + ((hash << 5) - hash);
     }
+    const color = (hash & 0x00FFFFFF).toString(16).padStart(6, '0');
+    return `#${color}`;
+}
 
     // Lorsque le document est complètement chargé, charger les messages
     document.addEventListener('DOMContentLoaded', function() {
         loadMessage(); // Charger les messages au chargement de la page
     });
+
+    // Charger les messages toutes les 5 secondes (5000 ms)
+    setInterval(loadMessage, 1000);
 
     // Fonction pour mettre la première lettre dans le chat en majuscule
     function capitalizeFirstLetter(string) {
