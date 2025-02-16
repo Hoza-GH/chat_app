@@ -140,7 +140,12 @@ body {
     background-color: #ff1a1a; /* Couleur de fond au survol */
 }
 ul{
+    padding-left: 0px;
     list-style-type: none ;
+}
+
+.listImg{
+    margin-right: 15px ; /* Espacement interne */
 }
 
 .user-container {
@@ -148,4 +153,16 @@ ul{
     overflow-y: auto; /* Activer le défilement vertical */
     scrollbar-color: rgba(105, 87, 138, 0.377) transparent; /* Couleur de la scrollbar (piste et curseur) */
     scrollbar-width: thin;
+}
+
+.user-item {
+    display: flex; /* Utiliser flexbox pour aligner les éléments */
+    align-items: center; /* Centrer verticalement */
+    padding: 5px 10px; /* Espacement interne */
+}
+.option-user {
+    cursor: pointer; /* Curseur en forme de main */
+    margin-left: auto; /* Pousse la croix à droite */
+    color: red; /* Couleur de la croix */
+    font-weight: bold; /* Mettre en gras */
 }

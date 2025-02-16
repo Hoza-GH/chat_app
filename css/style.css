@@ -67,6 +67,8 @@ input {
     margin-top: 10px;
 }
 
+
+
 /* Responsive pour petits écrans */
 @media (max-width: 480px) {
     .form-container {

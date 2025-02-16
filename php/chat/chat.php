@@ -7,6 +7,10 @@ if (!isset($_SESSION['username'])) {
     header("Location: ../../index.php");
     exit;
 }
+
+//Récupère le nom de la personne connecté
+$username = $_SESSION['username'];
+$isAdmin = $username === "admin"
 ?>
 
 <!DOCTYPE html>
@@ -15,6 +19,8 @@ if (!isset($_SESSION['username'])) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../css/chat.css">
+    <script src="../../js/banUser.js"></script>
+    <script src="../../js/msgColor.js"></script>
     <title>Chat</title>
 </head>
 <body>
@@ -22,7 +28,7 @@ if (!isset($_SESSION['username'])) {
     <div class="sidebar">
         <h2>
             <img class = "uploadImg" src=<?php echo htmlspecialchars($profileImage); ?> alt="Photo de profil" width="50" height="50" onclick = changeImg() >
-            <strong class="name-profile"><?php echo ucfirst($_SESSION['username']); ?></strong>
+            <strong class="name-profile"><?php echo ucfirst($username); ?></strong>
         </h2>
 
         <div class="content">
@@ -35,7 +41,13 @@ if (!isset($_SESSION['username'])) {
                 <!--Afficher tous les utilisateurs ayant un compte-->
                 <?php
                     foreach($afficher_profil as $ap) {
-                        echo '<li style = "font-size: 25px;"><img style = "position: relative; top: 6px;" src="'.htmlspecialchars($ap['profile_picture']).'" alt="Photo de profil" width="30" height="30">' ." ". htmlspecialchars($ap['username']) . '</li>';
+                        echo '<li class="user-item">';
+                        echo '<img class = "listImg" src="'.htmlspecialchars($ap['profile_picture']).'" alt="Photo de profil" width="30" height="30"> ' . ucfirst($ap['username']);
+                        // Afficher la croix si l'utilisateur est admin
+                        if ($isAdmin) {
+                            echo ' <span class="option-user" onclick="banUser(\'' . htmlspecialchars($ap['username']) . '\')">x</span>'; // Croix pour bannir
+                        }
+                        echo '</li>';
                     }
                 ?>
 
@@ -77,7 +89,7 @@ if (!isset($_SESSION['username'])) {
         const message = document.createElement('div');
         message.classList.add('message', 'me'); // Ajouter des classes pour le style
         // Définir le contenu HTML du message avec le nom d'utilisateur et le texte du message
-        message.innerHTML = `<strong><?php echo ucfirst($_SESSION['username']); ?>:</strong> ` + input.value;
+        message.innerHTML = `<strong><?php echo ucfirst($username); ?>:</strong> ` + input.value;
 
         // Ajouter le message à la boîte de chat
         chatBox.appendChild(message);
@@ -95,12 +107,14 @@ if (!isset($_SESSION['username'])) {
                 content: input.value,
                 sender_id: <?php echo $_SESSION['user_id']; ?>,
             })
+        })
+        .then(() => {
+            // Charger les messages après l'envoi
+            loadMessage();
         });
 
         // Vider l'input après l'envoi du message
         input.value = "";
-        // Faire défiler la boîte de chat vers le bas pour afficher le dernier message
-        chatBox.scrollTop = chatBox.scrollHeight;
     }
 
     // Fonction pour charger les messages depuis la base de données
@@ -118,9 +132,9 @@ if (!isset($_SESSION['username'])) {
                 chatBox.innerHTML = ''; // Vider la boîte de chat avant d'ajouter les nouveaux messages
                 messages.forEach(msg => {
                     const message = document.createElement('div'); // Créer un nouvel élément pour chaque message
-                    message.classList.add('message'); // Ajouter une classe pour le style
+                    message.classList.add('message', 'me'); // Ajouter une classe pour le style
                     // Définir le contenu HTML du message avec le nom d'utilisateur et le texte du message
-                    message.innerHTML = `<strong>${msg.username} :</strong> ${msg.content}`;
+                    message.innerHTML = `<strong>${capitalizeFirstLetter(msg.username)} :</strong> ${msg.content}`;
                     chatBox.appendChild(message); // Ajouter le message à la boîte de chat
                 });
             })
@@ -130,12 +144,16 @@ if (!isset($_SESSION['username'])) {
             });
     }
 
-    // Appeler loadMessage toutes les secondes pour mettre à jour les messages
-    setInterval(loadMessage, 1000); // 1000 ms = 1 seconde
     // Lorsque le document est complètement chargé, charger les messages
     document.addEventListener('DOMContentLoaded', function() {
         loadMessage(); // Charger les messages au chargement de la page
     });
+
+    // Fonction pour mettre la première lettre dans le chat en majuscule
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
 </script>
 
 </body>

@@ -15,7 +15,6 @@ try{
 }
 
 //On capture les exceptions si une exception est lancée et on affiche
-             
 catch(PDOException $e){
     echo "Erreur : " . $e->getMessage();
     }

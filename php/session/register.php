@@ -3,6 +3,7 @@ include 'database.php'; // Inclure le fichier de connexion à la base de donnée
 
 
 $valid = true; // Initialiser la variable $valid a vraie
+$errors = []; // Tableau pour stocker les messages d'erreur
 
     if (isset($_POST['creer'])){
         $strUsername = htmlentities(trim($_POST['username'])); // On récupère le username
@@ -12,21 +13,21 @@ $valid = true; // Initialiser la variable $valid a vraie
         //verification du username
         if(empty($strUsername)){
             $valid = false;
-            $err_username = ("Le nom d'utilisateur ne peut pas être vide");
+            $errors[] = "Le nom d'utilisateur ne peut pas être vide";
         }
         
         //verification du mdp
         if(empty($strPassword)){
             $valid = false;
-            $err_password = ("Le mot de passe ne peut pas être vide");
+            $errors[] = "Le mot de passe ne peut pas être vide";
         }
         //verification de confirmation
         if(empty($strConfirm)){
             $valid = false;
-            $err_confirmation = ("La confirmation du mot de passe n'est pas valide");
+            $errors[] = "La confirmation du mot de passe n'est pas valide";
         }elseif(!preg_match('/^[a-zA-Z][a-zA-Z0-9]*$/', $strUsername)) { //On verifie si le ne mets pas de chiffre au début
             $valid = false;
-            $err_username = "Le nom d'utilisateur doit commencer par une lettre et ne contenir que des lettres et des chiffres.";
+            $errors[] = "Le nom d'utilisateur doit commencer par une lettre.";
         }else{
             //On verifie si le nom d'utilisateur est disponible
             $req_user = $conn->prepare("SELECT username FROM users WHERE username = ?");
@@ -35,18 +36,14 @@ $valid = true; // Initialiser la variable $valid a vraie
 
             if ($req_user['username'] <> ""){
                 $valid = false;
-                $err_username = "Ce nom d'utilisateur n'est pas disponible";
+                $errors[] = "Ce nom d'utilisateur n'est pas disponible";
             }
         }
 
         // Vérification du mot de passe
-        if(empty($strPassword)) {
+        if($strPassword != $strConfirm){
             $valid = false;
-            $err_password = "Le mot de passe ne peut pas être vide";
-
-        }elseif($strPassword != $strConfirm){
-            $valid = false;
-            $err_password = "La confirmation du mot de passe ne correspond pas";
+            $errors[] = "La confirmation du mot de passe ne correspond pas";
         }
 
         //Si toutes  les conditions sont remplies alors on créer le compte
@@ -58,7 +55,7 @@ $valid = true; // Initialiser la variable $valid a vraie
             header('Location: ../../index.php');
             exit;
         }else{
-            $erreur = "Mauvais nom d'utilisateur ou mot de passe!";
+            $erreur = implode("<br>", $errors); // Concatène les erreurs pour affichage
         }
     }
 ?>
