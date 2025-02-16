@@ -20,7 +20,6 @@ $isAdmin = $username === "admin"
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../css/chat.css">
     <script src="../../js/banUser.js"></script>
-    <script src="../../js/msgColor.js"></script>
     <title>Chat</title>
 </head>
 <body>
