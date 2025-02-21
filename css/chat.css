@@ -123,7 +123,7 @@ body {
 }
 
 .btn-logout {
-    background-color: #ffd900; /* Couleur de fond rouge */
+    background-color: #ff0000; /* Couleur de fond rouge */
     color: white; /* Couleur du texte */
     border: none; /* Pas de bordure */
     border-radius: 5px; /* Coins arrondis */
@@ -133,7 +133,7 @@ body {
     transition: background-color 0.3s; /* Transition pour l'effet de survol */
     width: 100%; /* Prend toute la largeur du conteneur */
     margin-top: auto; /* Pousse le bouton vers le bas */
-    z-index: 1000;
+    z-index: 900;
     
 }
 
