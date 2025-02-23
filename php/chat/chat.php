@@ -25,6 +25,7 @@ $isAdmin = $username === "admin"
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../css/chat.css">
     <script src="../../js/banUser.js"></script>
+    <script src="../../js/status.js"></script>
     <title>Chat</title>
 </head>
 <body>
@@ -35,7 +36,7 @@ $isAdmin = $username === "admin"
             <div style="position: relative; display: inline-block;">
                 <img class="uploadImg" src="<?php echo htmlspecialchars($profileImage); ?>" 
                     alt="Photo de profil" width="50" height="50" onclick="changeImg()">
-                <span class="status <?= $status ? 'online' : 'offline'; ?>"></span>
+                <span style="position: absolute;"class="status-profile <?= $status ? 'online' : 'offline'; ?>"></span>
             </div>
             <strong class="name-profile"><?php echo ucfirst($username); ?></strong>
         </h2>
@@ -51,8 +52,13 @@ $isAdmin = $username === "admin"
                 <!--Afficher tous les utilisateurs ayant un compte-->
                 <?php
                     foreach($afficher_profil as $ap) {
-                        echo '<li class="user-item">';
-                        echo '<img class = "listImg" src="'.htmlspecialchars($ap['profile_picture']).'" alt="Photo de profil" width="30" height="30"> ' . ucfirst($ap['username']);
+                        echo '<li class="user-item" style="position: relative;">';
+                        echo '<div style="position: relative; display: inline-block;">';  // Conteneur pour l'image et la pastille
+                            echo '<img class="listImg" src="'.htmlspecialchars($ap['profile_picture']).'" alt="Photo de profil" width="30" height="30">';
+                            $isOnline = $ap['is_online'] ?? 0;  // Vérifier si l'utilisateur est en ligne
+                            echo '<span class="status-list ' . ($isOnline ? 'online' : 'offline') . '"></span>';
+                        echo '</div>';
+                        echo ucfirst(htmlspecialchars($ap['username']));  // Afficher le nom d'utilisateur
                         // Afficher la croix si l'utilisateur est admin
                         if ($isAdmin) {
                             echo ' <span class="option-user" onclick="banUser(\'' . htmlspecialchars($ap['username']) . '\')">x</span>'; // Croix pour bannir

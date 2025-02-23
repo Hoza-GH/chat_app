@@ -167,7 +167,7 @@ ul{
     color: red; /* Couleur de la croix */
     font-weight: bold; /* Mettre en gras */
 }
-.profile {
+.profile{
     position: relative;
     display: inline-block;
 }
@@ -176,14 +176,23 @@ ul{
     border-radius: 50%; /* Pour un effet arrondi si nécessaire */
 }
 
-.status {
-    position: absolute;
-    bottom: 2px; /* Ajuste la position verticale */
-    right: 2px; /* Ajuste la position horizontale */
+.status-profile {
+    /* position: absolute; */
+    bottom: 5px; /* Ajuste la position verticale */
+    right: 0px; /* Ajuste la position horizontale */
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    border: 2px solid white; /* Pour bien séparer la pastille de la photo */
+    border: 2px solid rgb(59, 59, 59); /* Pour bien séparer la pastille de la photo */
+}
+.status-list {
+    position: absolute;
+    bottom: 5px; /* Ajuste la position en bas */
+    right: 15px; /* Ajuste la position à droite */
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    border: 2px solid rgb(59, 59, 59);
 }
 
 .online {
