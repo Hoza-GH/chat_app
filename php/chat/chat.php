@@ -8,6 +8,11 @@ if (!isset($_SESSION['username'])) {
     exit;
 }
 
+$userId = $_SESSION['user_id'];
+$stmt = $conn->prepare("SELECT is_online FROM user_status WHERE user_id = ?");
+$stmt->execute([$userId]);
+$status = $stmt->fetchColumn();
+
 //Récupère le nom de la personne connecté
 $username = $_SESSION['username'];
 $isAdmin = $username === "admin"
@@ -25,10 +30,16 @@ $isAdmin = $username === "admin"
 <body>
 
     <div class="sidebar">
-        <h2>
-            <img class = "uploadImg" src=<?php echo htmlspecialchars($profileImage); ?> alt="Photo de profil" width="50" height="50" onclick = changeImg() >
+        <!--Afficher le nom de l'utilisateur connecté-->
+        <h2 class="profile">
+            <div style="position: relative; display: inline-block;">
+                <img class="uploadImg" src="<?php echo htmlspecialchars($profileImage); ?>" 
+                    alt="Photo de profil" width="50" height="50" onclick="changeImg()">
+                <span class="status <?= $status ? 'online' : 'offline'; ?>"></span>
+            </div>
             <strong class="name-profile"><?php echo ucfirst($username); ?></strong>
         </h2>
+
 
         <div class="content">
             <h4 class = "userListHeader">

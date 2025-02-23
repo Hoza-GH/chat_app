@@ -167,3 +167,29 @@ ul{
     color: red; /* Couleur de la croix */
     font-weight: bold; /* Mettre en gras */
 }
+.profile {
+    position: relative;
+    display: inline-block;
+}
+
+.uploadImg {
+    border-radius: 50%; /* Pour un effet arrondi si nécessaire */
+}
+
+.status {
+    position: absolute;
+    bottom: 2px; /* Ajuste la position verticale */
+    right: 2px; /* Ajuste la position horizontale */
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 2px solid white; /* Pour bien séparer la pastille de la photo */
+}
+
+.online {
+    background-color: green;
+}
+
+.offline {
+    background-color: red;
+}

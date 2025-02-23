@@ -33,9 +33,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['connexion'])) {
         // Mise à jour de la date de dernière connexion
         $updateLastLogin = $conn->prepare("UPDATE users SET last_login = NOW() WHERE id = ?");
         $updateLastLogin->execute(array($user['id']));
-            
+        
+        // Mise à jour du statut de connexion (online)
+        $userId = $_SESSION['user_id']; // ID de l'utilisateur connecté
+        $conn->prepare("INSERT INTO  user_status(user_id, is_online) VALUES(?, 1) ON DUPLICATE KEY UPDATE is_online = 1, updated_at = NOW()")
+                ->execute([$userId]);
 
-            header('Location: php/chat/chat.php'); // Redirige vers une page protégée
+            header('Location: php/chat/chat.php'); // Redirige vers l'application
             exit;
         } else {
             $erreur = "Nom d'utilisateur ou mot de passe incorrect";
