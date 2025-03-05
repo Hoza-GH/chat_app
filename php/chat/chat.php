@@ -56,6 +56,7 @@ $isAdmin = $username === "admin"
                         echo '<div style="position: relative; display: inline-block;">';  // Conteneur pour l'image et la pastille
                             echo '<img class="listImg" src="'.htmlspecialchars($ap['profile_picture']).'" alt="Photo de profil" width="30" height="30">';
                             $isOnline = $ap['is_online'] ?? 0;  // Vérifier si l'utilisateur est en ligne
+                            // echo $isOnline;
                             echo '<span class="status-list ' . ($isOnline ? 'online' : 'offline') . '"></span>';
                         echo '</div>';
                         echo ucfirst(htmlspecialchars($ap['username']));  // Afficher le nom d'utilisateur
@@ -64,7 +65,6 @@ $isAdmin = $username === "admin"
                             echo ' <span class="option-user" onclick="banUser(\'' . htmlspecialchars($ap['username']) . '\')">x</span>'; // Croix pour bannir
                         }
                         echo '</li>';
-                        
                     }
                 ?>
                 </ul>
