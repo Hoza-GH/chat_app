@@ -13,6 +13,7 @@ body {
 }
 
 .sidebar {
+    display: flex;
     height: 100vh;
     width: 400px;
     background: rgba(34, 34, 34, 0.8);
@@ -119,7 +120,10 @@ body {
 }
 
 .content {
-    flex-grow: 1; /* Prend tout l'espace disponible */
+    flex-grow: 1; /* Prend tout l'espace restant */
+    padding: 10px;
+    overflow-x:hidden;
+    overflow-y:hidden;
 }
 
 .btn-logout {
@@ -132,9 +136,6 @@ body {
     cursor: pointer; /* Curseur en forme de main */
     transition: background-color 0.3s; /* Transition pour l'effet de survol */
     width: 100%; /* Prend toute la largeur du conteneur */
-    margin-top: auto; /* Pousse le bouton vers le bas */
-    z-index: 900;
-    
 }
 
 .btn:hover {
@@ -150,7 +151,7 @@ ul{
 }
 
 .user-container {
-    max-height: 700px; /* Hauteur maximale pour le défilement */
+    max-height: 750px; /* Hauteur maximale pour le défilement */
     overflow-y: auto; /* Activer le défilement vertical */
     scrollbar-color: rgba(105, 87, 138, 0.377) transparent; /* Couleur de la scrollbar (piste et curseur) */
     scrollbar-width: thin;
