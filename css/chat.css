@@ -151,7 +151,7 @@ ul{
 }
 
 .user-container {
-    max-height: 750px; /* Hauteur maximale pour le défilement */
+    height: 90%;
     overflow-y: auto; /* Activer le défilement vertical */
     scrollbar-color: rgba(105, 87, 138, 0.377) transparent; /* Couleur de la scrollbar (piste et curseur) */
     scrollbar-width: thin;

@@ -64,9 +64,9 @@ $isAdmin = $username === "admin"
                             echo ' <span class="option-user" onclick="banUser(\'' . htmlspecialchars($ap['username']) . '\')">x</span>'; // Croix pour bannir
                         }
                         echo '</li>';
+                        
                     }
                 ?>
-
                 </ul>
             </div>   
             
