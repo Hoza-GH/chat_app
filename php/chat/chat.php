@@ -47,20 +47,24 @@ $isAdmin = $username === "admin"
             </h4>
             <hr /> 
             <div class="user-container">
-                <ul class="user-list">
-                    <?php foreach ($afficher_profil as $ap): ?>
-                        <li class="user-item" style="position: relative;">
-                            <div style="position: relative; display: inline-block;">
-                                <img class="listImg" src="<?= htmlspecialchars($ap['profile_picture']) ?>" alt="Photo de profil" width="30" height="30">
-                                
-                                <!-- Pastille de statut -->
-                                <span class="status-list <?= $ap['is_online'] ? 'online' : 'offline' ?>"></span>
-                            </div>
+            <ul class="user-list">
+                <?php foreach ($afficher_profil as $ap): ?>
+                    <li class="user-item" style="position: relative;">
+                        <div style="position: relative; display: inline-block;">
+                            <img class="listImg" src="<?= htmlspecialchars($ap['profile_picture']) ?>" alt="Photo de profil" width="30" height="30">
+                            
+                            <!-- Pastille de statut -->
+                            <span class="status-list <?= $ap['is_online'] ? 'online' : 'offline' ?>" data-user-id="<?= $ap['user_id'] ?>"></span>
+                        </div>
 
-                            <?= ucfirst(htmlspecialchars($ap['username'])) ?>
-                        </li>
-                    <?php endforeach; ?>
-                </ul>
+                        <?= ucfirst(htmlspecialchars($ap['username'])) ?>
+
+                        <?php if ($isAdmin): ?>
+                            <span class="option-user" onclick="banUser('<?= htmlspecialchars($ap['username']) ?>')">x</span>
+                        <?php endif; ?>
+                    </li>
+                <?php endforeach; ?>
+            </ul>
             </div>   
             
 
@@ -180,11 +184,15 @@ $isAdmin = $username === "admin"
     fetch('get_user_status.php')
         .then(response => response.json())
         .then(users => {
-            users.forEach((user, index) => {
+            users.forEach(user => {
                 // Sélectionner la pastille de statut correspondant à l'utilisateur
-                let statusElement = document.querySelectorAll('.status-list')[index];
+                let statusElement = document.querySelector(`.status-list[data-user-id="${user.user_id}"]`);
+                
                 if (statusElement) {
+                    // Supprimer les classes 'online' et 'offline'
                     statusElement.classList.remove("online", "offline");
+
+                    // Ajouter la classe appropriée selon le statut de l'utilisateur
                     statusElement.classList.add(user.is_online ? "online" : "offline");
                 }
             });
