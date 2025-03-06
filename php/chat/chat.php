@@ -151,14 +151,14 @@ $isAdmin = $username === "admin"
 }
 
     function getColorForUser(username) {
-    // Utiliser un hash simple pour générer une couleur à partir du nom d'utilisateur
-    let hash = 0;
-    for (let i = 0; i < username.length; i++) {
-        hash = username.charCodeAt(i) + ((hash << 5) - hash);
+        // Utiliser un hash simple pour générer une couleur à partir du nom d'utilisateur
+        let hash = 0;
+        for (let i = 0; i < username.length; i++) {
+            hash = username.charCodeAt(i) + ((hash << 5) - hash);
+        }
+        const color = (hash & 0x00FFFFFF).toString(16).padStart(6, '0');
+        return `#${color}`;
     }
-    const color = (hash & 0x00FFFFFF).toString(16).padStart(6, '0');
-    return `#${color}`;
-}
 
     // Lorsque le document est complètement chargé, charger les messages
     document.addEventListener('DOMContentLoaded', function() {
@@ -180,8 +180,9 @@ $isAdmin = $username === "admin"
     fetch('get_user_status.php')
         .then(response => response.json())
         .then(users => {
-            users.forEach(user => {
-                let statusElement = document.querySelector(`.status-list[data-user-id="${user.user_id}"]`);
+            users.forEach((user, index) => {
+                // Sélectionner la pastille de statut correspondant à l'utilisateur
+                let statusElement = document.querySelectorAll('.status-list')[index];
                 if (statusElement) {
                     statusElement.classList.remove("online", "offline");
                     statusElement.classList.add(user.is_online ? "online" : "offline");
@@ -191,9 +192,9 @@ $isAdmin = $username === "admin"
         .catch(error => console.error('Erreur lors de la mise à jour des statuts:', error));
 }
 
-    // Rafraîchir toutes les 5 secondes
-    setInterval(updateUserStatus, 5000);
-    updateUserStatus();
+// Rafraîchir toutes les 5 secondes
+setInterval(updateUserStatus, 5000);
+updateUserStatus();
 </script>
 
 </body>

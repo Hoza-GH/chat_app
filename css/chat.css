@@ -196,10 +196,10 @@ ul{
     
 }
 
-.online {
-    background-color: rgb(10, 223, 10);
+.status-list.online {
+    background-color: green; /* Pastille verte quand en ligne */
 }
 
-.offline {
-    background-color: rgb(255, 0, 0);
+.status-list.offline {
+    background-color: red; /* Pastille rouge quand hors ligne */
 }
