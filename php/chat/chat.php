@@ -25,7 +25,6 @@ $isAdmin = $username === "admin"
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="../../css/chat.css">
     <script src="../../js/banUser.js"></script>
-    <script src="../../js/status.js"></script>
     <title>Chat</title>
 </head>
 <body>
@@ -48,25 +47,19 @@ $isAdmin = $username === "admin"
             </h4>
             <hr /> 
             <div class="user-container">
-                <ul>
-                <!--Afficher tous les utilisateurs ayant un compte-->
-                <?php
-                    foreach($afficher_profil as $ap) {
-                        echo '<li class="user-item" style="position: relative;">';
-                        echo '<div style="position: relative; display: inline-block;">';  // Conteneur pour l'image et la pastille
-                            echo '<img class="listImg" src="'.htmlspecialchars($ap['profile_picture']).'" alt="Photo de profil" width="30" height="30">';
-                            $isOnline = $ap['is_online'] ?? 0;  // Vérifier si l'utilisateur est en ligne
-                            // echo $isOnline;
-                            echo '<span class="status-list ' . ($isOnline ? 'online' : 'offline') . '"></span>';
-                        echo '</div>';
-                        echo ucfirst(htmlspecialchars($ap['username']));  // Afficher le nom d'utilisateur
-                        // Afficher la croix si l'utilisateur est admin
-                        if ($isAdmin) {
-                            echo ' <span class="option-user" onclick="banUser(\'' . htmlspecialchars($ap['username']) . '\')">x</span>'; // Croix pour bannir
-                        }
-                        echo '</li>';
-                    }
-                ?>
+                <ul class="user-list">
+                    <?php foreach ($afficher_profil as $ap): ?>
+                        <li class="user-item" style="position: relative;">
+                            <div style="position: relative; display: inline-block;">
+                                <img class="listImg" src="<?= htmlspecialchars($ap['profile_picture']) ?>" alt="Photo de profil" width="30" height="30">
+                                
+                                <!-- Pastille de statut -->
+                                <span class="status-list <?= $ap['is_online'] ? 'online' : 'offline' ?>"></span>
+                            </div>
+
+                            <?= ucfirst(htmlspecialchars($ap['username'])) ?>
+                        </li>
+                    <?php endforeach; ?>
                 </ul>
             </div>   
             
@@ -126,6 +119,7 @@ $isAdmin = $username === "admin"
         
         // Vider l'input après l'envoi du message
         input.value = "";
+        chatBox.scrollTop = chatBox.scrollHeight
     }
 
     // Fonction pour charger les messages depuis la base de données
@@ -148,7 +142,7 @@ $isAdmin = $username === "admin"
                 message.innerHTML = `<strong>${capitalizeFirstLetter(msg.username)} :</strong> ${msg.content}`;
                 chatBox.appendChild(message);
                 // Faire défiler la boîte de chat vers le bas pour afficher le dernier message
-                chatBox.scrollTop = chatBox.scrollHeight
+                
             });
         })
         .catch(error => {
@@ -179,6 +173,27 @@ $isAdmin = $username === "admin"
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
+
+
+    // Update le status des profils connectés
+    function updateUserStatus() {
+    fetch('get_user_status.php')
+        .then(response => response.json())
+        .then(users => {
+            users.forEach(user => {
+                let statusElement = document.querySelector(`.status-list[data-user-id="${user.user_id}"]`);
+                if (statusElement) {
+                    statusElement.classList.remove("online", "offline");
+                    statusElement.classList.add(user.is_online ? "online" : "offline");
+                }
+            });
+        })
+        .catch(error => console.error('Erreur lors de la mise à jour des statuts:', error));
+}
+
+    // Rafraîchir toutes les 5 secondes
+    setInterval(updateUserStatus, 5000);
+    updateUserStatus();
 </script>
 
 </body>

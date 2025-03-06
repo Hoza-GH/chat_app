@@ -181,25 +181,25 @@ ul{
     /* position: absolute; */
     bottom: 5px; /* Ajuste la position verticale */
     right: 0px; /* Ajuste la position horizontale */
-    width: 12px;
-    height: 12px;
+    width: 17px;
+    height: 17px;
     border-radius: 50%;
-    border: 2px solid rgb(59, 59, 59); /* Pour bien séparer la pastille de la photo */
+    
 }
 .status-list {
     position: absolute;
     bottom: 5px; /* Ajuste la position en bas */
     right: 15px; /* Ajuste la position à droite */
-    width: 7px;
-    height: 7px;
+    width: 11px;
+    height: 11px;
     border-radius: 50%;
-    border: 2px solid rgb(59, 59, 59);
+    
 }
 
 .online {
-    background-color: green;
+    background-color: rgb(10, 223, 10);
 }
 
 .offline {
-    background-color: red;
+    background-color: rgb(255, 0, 0);
 }
