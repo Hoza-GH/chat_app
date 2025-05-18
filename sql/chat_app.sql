@@ -3,8 +3,8 @@ CREATE TABLE users (
     username VARCHAR(50) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
     profile_picture VARCHAR(255) DEFAULT '../../uploads/default.png',
-    last_login DATETIME,  -- Ajout de la colonne pour la date de dernière connexion
-    last_logout DATETIME  -- Ajout de la colonne pour la date de dernière déconnexion
+    last_login DATETIME,  
+    last_logout DATETIME  
 );
 
 CREATE TABLE messages (
