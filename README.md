@@ -17,7 +17,7 @@ Une application de messagerie locale en PHP avec gestion des utilisateurs et env
 3. Lancez WAMP et accédez à [http://localhost/chat_app](http://localhost/chat_app)
 4. Créez une base de données `chat_app` via phpMyAdmin
 5. Importez le fichier SQL situé dans le dossier `sql/`
-6. Vérifiez les identifiants MySQL dans `php/config.php` (utilisateur `root`, mot de passe vide par défaut)
+6. Vérifiez les identifiants MySQL dans `php/session/database.php` (utilisateur `root`, mot de passe vide par défaut)
 
 ---
 
